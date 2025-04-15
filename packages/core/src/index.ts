@@ -42,3 +42,4 @@ export type { WorkflowConfig, StepConfig, Tool } from './types';
 // Chat
 export { registerChatClient, getChatClient } from './chat/clientRegistry'
 export type { ChatClient, ChatMessage, ChatConfig } from './types';
+export {convertTools} from "./utils/convertTools"
