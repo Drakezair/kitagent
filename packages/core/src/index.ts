@@ -37,7 +37,7 @@ export { registerTool, getToolHandler } from './tools/toolRegistry';
 // Workflows
 export { runWorkflow } from './workflows/engine/runner';
 export { loadWorkflowFromYaml } from './workflows/loaders/yamlLoader';
-export type { WorkflowConfig, StepConfig } from './types';
+export type { WorkflowConfig, StepConfig, Tool } from './types';
 
 // Chat
 export { registerChatClient, getChatClient } from './chat/clientRegistry'
