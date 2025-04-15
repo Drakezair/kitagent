@@ -1,0 +1,12 @@
+{
+  "name": "kitagent",
+  "private": true,
+  "version": "0.0.1",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "kit-agent": "link:../../Library/pnpm/global/5/node_modules/kit-agent",
+    "kitagent-cli": "link:packages/kitagent-cli"
+  }
+}

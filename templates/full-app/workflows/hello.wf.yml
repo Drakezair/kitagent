@@ -1,0 +1,9 @@
+name: say-hello
+http:
+  method: POST
+  path: /hello
+steps:
+  - id: saludo
+    type: say_hello
+    input:
+      name: ${name}
