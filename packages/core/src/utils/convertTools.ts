@@ -1,6 +1,6 @@
 import {Tool} from "../types";
 
-export function convertTools(tools: Tool[]){
+export function convertTools(tools: Record<any, Tool>){
 
   return Object.entries(tools)
     .map(([name, tool]) => ({
