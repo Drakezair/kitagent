@@ -1,6 +1,6 @@
-import {getTool, getToolHandler} from '../tools/toolRegistry';
-import {StepConfig, WorkflowContext} from '../types';
-import {validateInputWithParameters} from "../utils/validateParameters";
+import { getTool } from '../tools/toolRegistry';
+import { StepConfig, WorkflowContext } from '../types';
+import { validateWithZod } from '../utils/zodUtils';
 
 export async function runToolStep({step, context, parameters}: {
   step: StepConfig,
@@ -9,18 +9,22 @@ export async function runToolStep({step, context, parameters}: {
 }) {
   const tool = getTool(step?.tool!);
 
-  const validInput = validateInputWithParameters(parameters, tool?.parameters!);
-  if (!validInput.valid) {
+  // Validate with Zod
+  const validation = validateWithZod(tool!.parameters, parameters);
+  if (!validation.success) {
     return {
       error: {
         name: "Invalid input",
-        message: validInput.errors
+        message: validation.errors.errors.map(err =>
+          `${err.path.join('.')}: ${err.message}`
+        ).join(', ')
       }
-    }
-
+    };
   }
+
+  // Execute the tool with validated data
   return await tool?.execute({
-    params: parameters,
+    params: validation.data,
     context
   });
 }

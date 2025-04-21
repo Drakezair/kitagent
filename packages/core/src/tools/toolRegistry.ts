@@ -1,20 +1,20 @@
-import {Tool, ToolHandler} from '../types';
-import {validateParametersSchema} from "../utils/validateParameters";
+import { Tool, ToolHandler } from '../types';
+import { z } from 'zod';
 
 const toolRegistry = new Map<string, Tool>();
 
 export function registerTool<T extends Record<string, any>>(
   tool: Tool<T>,
 ) {
-  const error = validateParametersSchema(tool.parameters);
-  if (
-    error.length > 0
-  ) {
-    throw new Error(`Tool "${tool.name}" has invalid parameters: ${error.join(", ")}`);
+  // Check if the tool schema is valid
+  if (!(tool.parameters instanceof z.ZodObject)) {
+    throw new Error(`Tool "${tool.name}" parameters must be a Zod object schema`);
   }
+
   if (toolRegistry.has(tool.name)) {
-    throw new Error(`Tool "${name}" already registered`);
+    throw new Error(`Tool "${tool.name}" already registered`);
   }
+
   toolRegistry.set(tool.name, tool);
 }
 

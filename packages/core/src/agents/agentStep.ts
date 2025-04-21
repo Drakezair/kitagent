@@ -1,7 +1,7 @@
-import {StepConfig, Tool, WorkflowContext} from '../types';
-import {validateInputWithParameters} from "../utils/validateParameters";
-import {getAgent} from "./agentRegistry";
-import {getTool} from "../tools/toolRegistry";
+import { StepConfig, Tool, WorkflowContext } from '../types';
+import { getAgent } from "./agentRegistry";
+import { getTool } from "../tools/toolRegistry";
+import { validateWithZod } from "../utils/zodUtils";
 
 export async function runAgentStep({step, context, parameters}: {
   step: StepConfig,
@@ -10,27 +10,29 @@ export async function runAgentStep({step, context, parameters}: {
 }) {
   const agent = getAgent(step?.agent!.name);
 
-  if(!agent) {
+  if (!agent) {
     return {
       error: {
         name: "Agent not found",
         message: `Agent "${step.agent?.name}" not found`
       }
-    }
+    };
   }
 
-  const validInput = validateInputWithParameters(parameters, agent?.parameters!);
-  if (!validInput.valid) {
+  // Validate with Zod
+  const validation = validateWithZod(agent.parameters, parameters);
+  if (!validation.success) {
     return {
       error: {
         name: "Invalid input",
-        message: validInput.errors
+        message: validation.errors.errors.map(err =>
+          `${err.path.join('.')}: ${err.message}`
+        ).join(', ')
       }
-    }
-
+    };
   }
 
-  // return tool in object format with reduce
+  // Get tools
   const tools = step?.agent?.tools?.reduce((acc, toolName) => {
     const tool = getTool(toolName);
     if (tool) {
@@ -39,8 +41,9 @@ export async function runAgentStep({step, context, parameters}: {
     return acc;
   }, {} as Record<string, Tool>) || {};
 
+  // Execute the agent task with validated data
   return await agent?.task({
-    params: parameters,
+    params: validation.data,
     context,
     tools: tools,
   });

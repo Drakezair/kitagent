@@ -26,8 +26,7 @@ export async function createKitAgent(projectDir = process.cwd()) {
   });
 }
 
-
-// Agentes
+// Agents
 export { registerAgent, getAgent } from './agents/agentRegistry';
 export type { AgentConfig } from './types';
 
@@ -42,4 +41,10 @@ export type { WorkflowConfig, StepConfig, Tool } from './types';
 // Chat
 export { registerChatClient, getChatClient } from './chat/clientRegistry'
 export type { ChatClient, ChatMessage, ChatConfig } from './types';
-export {convertTools} from "./utils/convertTools"
+
+// Utils
+export {convertTools} from "./utils/convertTools";
+export {validateWithZod, zodToJsonSchema} from "./utils/zodUtils";
+
+// Re-export zod for convenience
+export { z } from 'zod';

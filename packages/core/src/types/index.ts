@@ -1,12 +1,11 @@
-import {ParametersDefinition} from "./parameters";
+import { z } from 'zod';
 
 export type Tool<T = any> = {
   name: string;
   description: string;
-  parameters: ParametersDefinition;
+  parameters: z.ZodObject<any>;
   execute: ToolHandler<T>;
 };
-
 
 export type StepConfig<T = any> = {
   name: string;
@@ -23,7 +22,7 @@ export type WorkflowConfig = {
   name: string;
   steps: StepConfig[];
   globals?: Record<string, any>;
-  http?: WorkflowHttpConfig; // 👈 agregamos esta línea
+  http?: WorkflowHttpConfig;
 };
 
 export type ToolHandler<T = any> = ({params, context}: {
@@ -31,41 +30,30 @@ export type ToolHandler<T = any> = ({params, context}: {
   context: WorkflowContext
 }) => Promise<Record<any, any>>;
 
-
 export type AgentConfig<T = any> = {
   name: string;
   description: string;
-  parameters: ParametersDefinition;
+  parameters: z.ZodObject<any>;
   tools?: string[];
   task: ({params, context, tools}: {
     params: Partial<T>, context: WorkflowContext, tools: Record<any, Tool>
   }) => Promise<Record<any, any>>;
 };
 
-
 export interface WorkflowContext {
   get<T = any>(key: string): T | undefined;
-
   set<T = any>(key: string, value: T): void;
-
   has(key: string): boolean;
-
   merge(data: Record<string, any>): void;
-
   toJSON(): Record<string, any>;
-
   previousStepResult(): any;
-
   getWorkflowGlobals(): any;
-
   setWorkflowGlobals(workflow: any): void;
 }
-
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
-
   [key: string]: any;
 }
 
@@ -76,12 +64,9 @@ export interface SessionData {
 
 export interface SessionStore {
   getSession(id: string): Promise<SessionData>;
-
   saveMessage(sessionId: string, message: ChatMessage): Promise<void>;
-
   clearSession(id: string): Promise<void>;
 }
-
 
 export interface ChatClient {
   chat(args: {
@@ -112,4 +97,3 @@ export type ChatConfig = {
     path?: string;
   };
 };
-
