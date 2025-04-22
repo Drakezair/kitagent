@@ -6,10 +6,6 @@ const toolRegistry = new Map<string, Tool>();
 export function registerTool<T extends Record<string, any>>(
   tool: Tool<T>,
 ) {
-  // Check if the tool schema is valid
-  if (!(tool.parameters instanceof z.ZodObject)) {
-    throw new Error(`Tool "${tool.name}" parameters must be a Zod object schema`);
-  }
 
   if (toolRegistry.has(tool.name)) {
     throw new Error(`Tool "${tool.name}" already registered`);

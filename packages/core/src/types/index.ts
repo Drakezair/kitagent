@@ -3,7 +3,7 @@ import { z } from 'zod';
 export type Tool<T = any> = {
   name: string;
   description: string;
-  parameters: z.ZodObject<any>;
+  parameters: any;
   execute: ToolHandler<T>;
 };
 
@@ -27,13 +27,13 @@ export type WorkflowConfig = {
 
 export type ToolHandler<T = any> = ({params, context}: {
   params: Partial<T>,
-  context: WorkflowContext
+  context?: WorkflowContext
 }) => Promise<Record<any, any>>;
 
 export type AgentConfig<T = any> = {
   name: string;
   description: string;
-  parameters: z.ZodObject<any>;
+  parameters: any;
   tools?: string[];
   task: ({params, context, tools}: {
     params: Partial<T>, context: WorkflowContext, tools: Record<any, Tool>

@@ -5,6 +5,8 @@ import {registerAllHttpWorkflows} from "./http/registerAllHttpWorkflows";
 import {config} from 'dotenv';
 import {registerAllHttpChats} from "./chat/registerAllChats";
 import {loadAllClients} from "./chat/loadAllClient";
+import {loadAllMCP} from "./mcp/loadAllMCP";
+import {serveMCP} from "./mcp/mcpRunner";
 
 export async function createKitAgent(projectDir = process.cwd()) {
   console.log('⚙️ Initializing KitAgent...');
@@ -19,8 +21,12 @@ export async function createKitAgent(projectDir = process.cwd()) {
   await registerAllHttpWorkflows(app, projectDir);
   await loadAllClients(projectDir);
   await registerAllHttpChats(app, projectDir);
+  await loadAllMCP(projectDir)
+  await serveMCP(app)
 
-  const port = process.env.PORT || 3000;
+
+
+  const port = process.env.PORT || 3001;
   app.listen(port, () => {
     console.log(`🚀 KitAgent running at http://localhost:${port}`);
   });
