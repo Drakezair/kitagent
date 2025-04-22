@@ -54,3 +54,5 @@ export {validateWithZod, zodToJsonSchema} from "./utils/zodUtils";
 
 // Re-export zod for convenience
 export { z } from 'zod';
+
+export {registerMCP} from './mcp/registryMCP'
