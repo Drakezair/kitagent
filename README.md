@@ -19,7 +19,7 @@ cd my-kitagent-project
 pnpm install
 
 # Start development server
-pnpm dev
+pnpm dev:watch
 ```
 
 ## 📝 Description
