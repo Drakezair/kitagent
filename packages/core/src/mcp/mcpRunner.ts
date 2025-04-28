@@ -16,7 +16,7 @@ export async function serveMCP(app: express.Express) {
       });
 
       // Register tools if they exist
-      if (mcp?.tools?.length) {
+      if (mcp?.tools?.length && mcp?.tools?.length > 0) {
         mcp.tools.forEach(toolName => {
           const tool = getTool(toolName);
           if (!tool) {
@@ -29,9 +29,16 @@ export async function serveMCP(app: express.Express) {
             // @ts-ignore
             async (params: Record<string, any>) => {
               // Execute the tool and return its result
-              return await tool.execute({
+              const result = await tool.execute({
                 params,
               });
+
+              return {
+                content: [{
+                  type: "text",
+                  text: JSON.stringify(result)
+                }]
+              }
             }
           );
         });
@@ -49,7 +56,7 @@ export async function serveMCP(app: express.Express) {
 
       // Handle POST requests
       app.post(mcp.path, async (req: express.Request, res: express.Response) => {
-        console.log('Received MCP requestss:', req.body);
+        console.log('Received MCP requests:', req.body);
         try {
           await transport.handleRequest(req, res, req.body);
         } catch (error) {
@@ -70,7 +77,6 @@ export async function serveMCP(app: express.Express) {
       // Handle GET requests - Method not allowed
       app.get(mcp.path, async (_req: express.Request, res: express.Response) => {
         try {
-          console.log("kook")
           res.status(200).json({})
         } catch (error) {
           console.error('Error handling MCP request:', error);

@@ -1,0 +1,9 @@
+name: calculator-chat
+type: chat
+description: A chat interface for using the calculator tool
+client: openai
+tools:
+  - calculator
+http:
+  path: /chat/calculator
+  method: post

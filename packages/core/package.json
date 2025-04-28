@@ -1,12 +1,13 @@
 {
   "name": "kitagent",
-  "version": "1.0.12",
+  "version": "1.0.15",
   "author": {
     "name": "Luis Eduardo Andrade Florez",
     "email": "andradex.js07@gmail.com",
     "url": "https://luisandrade.me"
   },
   "description": "A workflow-based API framework powered by YAML and AI agents. Create extensible tools, workflows, and intelligent agents with zero boilerplate.",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -18,9 +19,16 @@
       "import": "./dist/index.js"
     }
   },
-  "keywords": [],
+  "keywords": [
+    "kitagent",
+    "kit-agent",
+    "ai",
+    "artificial-intelligence",
+    "agent"
+  ],
   "license": "MIT",
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash-es": "^4.17.12",
@@ -32,6 +40,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "fast-glob": "^3.3.3",

@@ -1,0 +1,14 @@
+name: example-workflow
+http:
+  method: post
+  path: /api/calculate
+
+steps:
+  - name: performCalculation
+    tool: calculator
+
+  - name: formatResult
+    agent:
+      name: formatAgent
+      tools:
+        - calculator

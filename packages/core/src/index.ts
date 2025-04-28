@@ -1,19 +1,37 @@
 import express from 'express';
+import cors from 'cors';
 import { loadAllTools } from './tools/loadAllTools';
 import { loadAllAgents } from './agents/loadAllAgents';
-import {registerAllHttpWorkflows} from "./http/registerAllHttpWorkflows";
-import {config} from 'dotenv';
-import {registerAllHttpChats} from "./chat/registerAllChats";
-import {loadAllClients} from "./chat/loadAllClient";
-import {loadAllMCP} from "./mcp/loadAllMCP";
-import {serveMCP} from "./mcp/mcpRunner";
+import { registerAllHttpWorkflows } from "./http/registerAllHttpWorkflows";
+import { config } from 'dotenv';
+import { registerAllHttpChats } from "./chat/registerAllChats";
+import { loadAllClients } from "./chat/loadAllClient";
+import { loadAllMCP } from "./mcp/loadAllMCP";
+import { serveMCP } from "./mcp/mcpRunner";
 
-export async function createKitAgent(projectDir = process.cwd()) {
+export interface KitAgentOptions {
+  /**
+   * CORS configuration options
+   */
+  cors?: cors.CorsOptions | boolean;
+}
+
+export async function createKitAgent(projectDir = process.cwd(), options: KitAgentOptions = {}) {
   console.log('⚙️ Initializing KitAgent...');
 
   config()
 
   const app = express();
+
+  // Configure CORS
+  if (options.cors === undefined) {
+    // Default CORS configuration if not specified
+    app.use(cors());
+  } else if (options.cors !== false) {
+    // User provided CORS options or enabled with true
+    app.use(cors(options.cors === true ? undefined : options.cors));
+  }
+
   app.use(express.json());
 
   await loadAllTools(projectDir);
@@ -23,8 +41,6 @@ export async function createKitAgent(projectDir = process.cwd()) {
   await registerAllHttpChats(app, projectDir);
   await loadAllMCP(projectDir)
   await serveMCP(app)
-
-
 
   const port = process.env.PORT || 3001;
   app.listen(port, () => {
@@ -49,10 +65,10 @@ export { registerChatClient, getChatClient } from './chat/clientRegistry'
 export type { ChatClient, ChatMessage, ChatConfig } from './types';
 
 // Utils
-export {convertTools} from "./utils/convertTools";
-export {validateWithZod, zodToJsonSchema} from "./utils/zodUtils";
+export { convertTools } from "./utils/convertTools";
+export { validateWithZod, zodToJsonSchema } from "./utils/zodUtils";
 
 // Re-export zod for convenience
 export { z } from 'zod';
 
-export {registerMCP} from './mcp/registryMCP'
+export { registerMCP } from './mcp/registryMCP'
