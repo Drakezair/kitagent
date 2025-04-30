@@ -2,11 +2,12 @@ import { StepConfig, Tool, WorkflowContext } from '../types';
 import { getAgent } from "./agentRegistry";
 import { getTool } from "../tools/toolRegistry";
 import { validateWithZod } from "../utils/zodUtils";
+import {z} from "zod";
 
 export async function runAgentStep({step, context, parameters}: {
   step: StepConfig,
   context: WorkflowContext,
-  parameters: Record<string, any>
+  parameters: z.ZodRawShape
 }) {
   const agent = getAgent(step?.agent!.name);
 
@@ -43,7 +44,7 @@ export async function runAgentStep({step, context, parameters}: {
 
   // Execute the agent task with validated data
   return await agent?.task({
-    params: validation.data,
+    params: validation.data as any,
     context,
     tools: tools,
   });

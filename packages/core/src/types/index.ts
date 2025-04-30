@@ -9,7 +9,7 @@ export type Tool<T = any> = {
 
 export type StepConfig<T = any> = {
   name: string;
-  agent?: AgentConfig;
+  agent?: Agent;
   tool?: string;
 };
 
@@ -30,7 +30,7 @@ export type ToolHandler<T = any> = ({params, context}: {
   context?: WorkflowContext
 }) => Promise<Record<any, any>>;
 
-export type AgentConfig<T = any> = {
+export type Agent<T = any> = {
   name: string;
   description: string;
   parameters: any;

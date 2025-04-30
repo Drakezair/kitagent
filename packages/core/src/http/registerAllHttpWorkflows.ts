@@ -25,7 +25,7 @@ export async function registerAllHttpWorkflows(app: express.Express, projectDir:
         try {
           const context = {...config.globals, body: req.body, queryParams: {...req.query}, files: req.files, headers: req.headers};
           console.log("🏃‍♂️‍➡️ Running Workflow: ", JSON.stringify(config, null, 2));
-          const result = await runWorkflow({...config, globals: context}, {...req.body, ...req.query});
+          const result = await runWorkflow({...config, globals: context}, {...req.body, ...req.query, ...req.params});
           res.json(result);
         } catch (err: any) {
           console.error(`❌ Error in workflow "${config.name}":`, err);

@@ -1,15 +1,11 @@
-import { AgentConfig } from '../types';
+import { Agent } from '../types';
 import { z } from 'zod';
 
-const agents = new Map<string, AgentConfig>();
+const agents = new Map<string, Agent>();
 
 export function registerAgent<TParams extends Record<string, any>>(
-  agent: AgentConfig<TParams>
+  agent: Agent<TParams>
 ) {
-  // Check if the agent schema is valid
-  if (!(agent.parameters instanceof z.ZodObject)) {
-    throw new Error(`Agent "${agent.name}" parameters must be a Zod object schema`);
-  }
 
   if (agents.has(agent.name)) {
     throw new Error(`Agent "${agent.name}" already registered`);
@@ -18,7 +14,7 @@ export function registerAgent<TParams extends Record<string, any>>(
   agents.set(agent.name, agent);
 }
 
-export function getAgent(name: string): AgentConfig {
+export function getAgent(name: string): Agent {
   const agent = agents.get(name);
   if (!agent) throw new Error(`Agent "${name}" not found`);
   return agent;

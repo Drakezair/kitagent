@@ -1,11 +1,12 @@
 import { getTool } from '../tools/toolRegistry';
 import { StepConfig, WorkflowContext } from '../types';
 import { validateWithZod } from '../utils/zodUtils';
+import {z} from "zod";
 
 export async function runToolStep({step, context, parameters}: {
   step: StepConfig,
   context: WorkflowContext,
-  parameters: Record<string, any>
+  parameters: z.ZodRawShape
 }) {
   const tool = getTool(step?.tool!);
 
@@ -24,7 +25,7 @@ export async function runToolStep({step, context, parameters}: {
 
   // Execute the tool with validated data
   return await tool?.execute({
-    params: validation.data,
+    params: validation.data as any,
     context
   });
 }

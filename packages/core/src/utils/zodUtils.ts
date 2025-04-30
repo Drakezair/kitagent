@@ -123,12 +123,13 @@ function zodTypeToJsonSchema(schema: z.ZodTypeAny, propertyName: string): any {
  * Validates input against a Zod schema and returns the result
  */
 export function validateWithZod<T>(
-  schema: z.ZodSchema<T>,
+  schema: z.ZodRawShape,
   input: any
 ): { success: true; data: T } | { success: false; errors: z.ZodError } {
   try {
-    const result = schema.parse(input);
-    return { success: true, data: result };
+    const schemaData = z.object(schema);
+    const result = schemaData.parse({...input});
+    return { success: true, data: result as any };
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { success: false, errors: error };

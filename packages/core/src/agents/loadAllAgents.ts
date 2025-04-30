@@ -11,7 +11,7 @@ export async function loadAllAgents(projectDir: string) {
       await import(file);
       console.log(`🤖 Agent loaded: ${file}`);
     } catch (err) {
-      console.error(`❌ Failed to load tool from ${file}:`, err);
+      console.error(`❌ Failed to load agent from ${file}:`, err);
     }
   }
 }

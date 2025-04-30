@@ -50,7 +50,7 @@ export async function createKitAgent(projectDir = process.cwd(), options: KitAge
 
 // Agents
 export { registerAgent, getAgent } from './agents/agentRegistry';
-export type { AgentConfig } from './types';
+export type { Agent } from './types';
 
 // Tools
 export { registerTool, getToolHandler } from './tools/toolRegistry';
