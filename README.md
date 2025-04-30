@@ -6,21 +6,23 @@ KitAgent is a workflow-based API framework powered by YAML and AI agents. Create
 
 ## 🚀 Getting Started
 
-The easiest way to get started with KitAgent is to use our template:
+The easiest way to get started with KitAgent is to use our CLI tool:
 
 ```bash
-# Clone the template repository
-git clone https://github.com/Drakezair/kitagent/tree/main/template my-kitagent-project
+# Create a new project
+npx create-kitagent my-kitagent-project
 
 # Navigate to the project directory
 cd my-kitagent-project
 
-# Install dependencies
-pnpm install
+# Copy .env.example to .env and add your OpenAI API key
+cp .env.example .env
 
-# Start development server
-pnpm dev:watch
+# Start the development server
+npm run dev
 ```
+
+
 
 ## 📝 Description
 
@@ -170,11 +172,18 @@ KitAgent is ideal for:
 - 🧩 **API Orchestration**: Combine multiple APIs into cohesive workflows
 - 🔍 **Data Processing Pipelines**: Process and transform data with AI augmentation
 
+## 🛠️ Tools & Resources
+
+- **create-kitagent**: Our official CLI tool for scaffolding new projects
+- **Ticket Manager Template**: A complete ticket management system example included in the CLI
+- **Documentation**: Coming soon!
+
 ## 🛣️ Roadmap
 
+- [x] Build a CLI for scaffolding new KitAgent projects
+- [ ] Create simple interface for integration with OpenAI
 - [ ] Create simple interface for integration with different AI models and chat providers
 - [ ] Develop a visual UI for creating workflows, MCP, and chat systems with drag-and-drop functionality
-- [ ] Build a CLI for scaffolding new KitAgent projects
 - [ ] Add real-time capabilities with WebSocket support
 - [ ] Implement database adapters for persistent storage
 - [ ] Create a plugin system for extending functionality
@@ -184,13 +193,19 @@ KitAgent is ideal for:
 
 ## 📚 Examples
 
-Check out the [examples directory](./template) for complete samples of:
+Check out the [examples directory](https://github.com/Drakezair/ticket-manager-kitagent) for complete samples of:
 
 - Tools implementation
 - Workflow definitions
 - Agent configurations
 - Chat setups
 - MCP implementations
+
+Or simply create a new project with our CLI to see a fully implemented ticket management system:
+
+```bash
+npx create-kitagent ticket-system
+```
 
 ## 📄 License
 
