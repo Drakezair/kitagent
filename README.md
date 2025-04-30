@@ -2,7 +2,7 @@
 
 KitAgent is a workflow-based API framework powered by YAML and AI agents. Create extensible tools, workflows, and intelligent agents with zero boilerplate.
 
-![KitAgent Banner](https://via.placeholder.com/800x200?text=KitAgent+Framework)
+![KitAgent Banner](./kitagent.png)
 
 ## 🚀 Getting Started
 
