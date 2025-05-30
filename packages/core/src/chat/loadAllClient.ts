@@ -1,4 +1,5 @@
 import fg from 'fast-glob';
+import { pathToFileURL } from 'url';
 
 export async function loadAllClients(projectDir: string) {
   const toolFiles = await fg(['**/*.client.{ts,js}'], {
@@ -8,7 +9,9 @@ export async function loadAllClients(projectDir: string) {
 
   for (const file of toolFiles) {
     try {
-      const mod = await import(file);
+      // Convert Windows paths to proper file:// URLs for ESM
+      const fileUrl = pathToFileURL(file).href;
+      const mod = await import(fileUrl);
       if (typeof mod.default === 'function') {
         mod.default();
         console.log(`🌐 Client loaded: ${file}`);
