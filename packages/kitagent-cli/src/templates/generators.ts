@@ -23,7 +23,7 @@ export const templates = {
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "is-glob": "^4.0.3",
-    "kitagent": "^1.0.17",
+    "kitagent": "^1.0.18",
     "openai": "^4.92.1",
     "tsx": "^4.19.3",
     "uuid": "^11.1.0",
