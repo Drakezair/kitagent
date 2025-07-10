@@ -14,6 +14,7 @@ export interface KitAgentOptions {
    * CORS configuration options
    */
   cors?: cors.CorsOptions | boolean;
+  port?: number;
 }
 
 export async function createKitAgent(projectDir = process.cwd(), options: KitAgentOptions = {}) {
@@ -42,7 +43,7 @@ export async function createKitAgent(projectDir = process.cwd(), options: KitAge
   await loadAllMCP(projectDir)
   await serveMCP(app)
 
-  const port = process.env.PORT || 3001;
+  const port = options?.port ? options?.port : process.env.PORT || 3001;
   app.listen(port, () => {
     console.log(`🚀 KitAgent running at http://localhost:${port}`);
   });
